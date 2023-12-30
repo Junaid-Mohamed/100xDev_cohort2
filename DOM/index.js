@@ -45,3 +45,6 @@ function calculateInterest() {
 
 calculateSumButton.addEventListener("click", calculateSum);
 calculateInterestButton.addEventListener("click", calculateInterest);
+
+// backend server in repel
+// https://replit.com/@JunaidMohamed2/calculatefunctionserver#index.js
