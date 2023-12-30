@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Event propogation</title>
+    <style>
+      #div1,
+      #div2 {
+        background-color: coral;
+        padding: 50px;
+      }
+      #p1,
+      #p2 {
+        background-color: white;
+        font-size: 20px;
+        border: 1px solid black;
+        padding: 20px;
+      }
+    </style>
+  </head>
+  <body>
+    <h2>Understanding event propogation.</h2>
+    <div id="div1">
+      <h2>bubbling</h2>
+      <p id="p1">Click me</p>
+    </div>
+    <br />
+    <div id="div2">
+      <h2>capturing</h2>
+      <p id="p2">Click me</p>
+    </div>
+    <script>
+      //   function sleep(ms) {
+      //     return new Promise((resolve) => setTimeout(resolve, ms));
+      //   }
+      //   document.getElementById("p1").addEventListener("click", async () => {
+      //     const p1 = document.getElementById("p1");
+      //     p1.style.backgroundColor = "#aaf2ff"; // Change background color
+      //     setTimeout(() => {
+      //       p1.style.backgroundColor = "white"; // Reset color after a short delay
+      //     }, 1000);
+      //     await sleep(2000);
+      //   });
+      //   document.getElementById("div1").addEventListener("click", () => {
+      //     const p1 = document.getElementById("p1");
+      //     const div1 = document.getElementById("div1");
+      //     div1.style.backgroundColor = "#aaf2ff"; // Reset color after a short
+      //   });
+      //   document.getElementById("p2").addEventListener("click", () => {
+      //     const p2 = document.getElementById("p2");
+      //     p2.style.backgroundColor = "#aaf2ff"; // Change background color
+      //     setTimeout(() => {
+      //       p2.style.backgroundColor = "white"; // Reset color after a short delay
+      //     }, 1000);
+      //   });
+      //   document.getElementById("div2").addEventListener("click", () => {});
+      document.getElementById("p1").addEventListener("click", () => {
+        const p1 = document.getElementById("p1");
+        p1.style.backgroundColor = "#aaf2ff";
+        setTimeout(() => {
+          alert("Clicked on white area and white area is listened first...");
+        }, 1000);
+      });
+      document.getElementById("div1").addEventListener("click", () => {
+        alert("orange area is being listened 2nd...");
+      });
+      document.getElementById("p2").addEventListener(
+        "click",
+        () => {
+          alert("white area is listened 2nd...");
+        },
+        true
+      );
+      document.getElementById("div2").addEventListener(
+        "click",
+        () => {
+          alert(
+            "clicked on white area but orange area is being listened 1st.."
+          );
+        },
+        true
+      );
+    </script>
+  </body>
+</html>
