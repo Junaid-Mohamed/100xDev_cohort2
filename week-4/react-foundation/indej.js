@@ -5,20 +5,31 @@ const addtodoButton = document.getElementById("addToDo");
 
 // raw using normal dom manipulation.
 
-let todoId = 0;
+let todoId = 1;
 
-function markAsDone(id) {}
+function markAsDone(id) {
+  const parent = document.getElementById(id);
+  //   console.log(parent.children); //.innerHTML = "Done";
+  parent.children[2].innerHTML = "Done";
+}
 
-function createChild(tittle, desc, id) {
+function createChild(title, desc, id) {
   //   console.log(todoId);
   const child = document.createElement("div");
-  const firstGrandChild = (document.createElement("div").innerHTML = title);
-  const secondGrandChild = (document.createElement("div").innerHTML = desc);
-  const thirdGrandChild = (document.createElement("button").innerHTML =
-    "Mark as Done");
+  const firstGrandChild = document.createElement("div");
+  const secondGrandChild = document.createElement("div");
+  const thirdGrandChild = document.createElement("button");
+  firstGrandChild.innerHTML = title;
+  secondGrandChild.innerHTML = desc;
+  thirdGrandChild.innerHTML = "Mark as Done";
+  thirdGrandChild.setAttribute("onClick", `markAsDone(${id})`);
   child.appendChild(firstGrandChild);
   child.appendChild(secondGrandChild);
   child.appendChild(thirdGrandChild);
+  child.setAttribute("id", id);
+
+  //   console.log(child);
+  return child;
 }
 function addToDo() {
   const title = document.getElementById("title").value;
