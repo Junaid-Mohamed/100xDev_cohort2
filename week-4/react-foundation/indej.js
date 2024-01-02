@@ -9,6 +9,24 @@ function markAsDone(id) {
   parent.children[2].innerHTML = "Done";
 }
 
+function deleteTodo(id) {
+  const todo = document.getElementById(id);
+  console.log(todo);
+}
+
+function updateTodo(id) {
+  const todo = document.getElementById(id);
+  console.log(todo);
+}
+
+function isEqual(todo1, todo2) {
+  const bool =
+    todo1.id === todo2.id &&
+    todo1.title === todo2.title &&
+    todo1.desc === todo2.desc;
+  return bool;
+}
+
 // https://sum-server.100xdevs.com/todos
 function createChild(title, desc, id) {
   const child = document.createElement("div");
@@ -33,54 +51,74 @@ function createChild(title, desc, id) {
   child.setAttribute("id", id);
   return child;
 }
+
 function addToDo() {
   const title = document.getElementById("title").value;
   const desc = document.getElementById("description").value;
-  const parent = document.getElementById("container");
+
   todo.push({
     title: title,
     desc: desc,
     id: todoId,
   });
-  parent.appendChild(createChild(title, desc, todoId++));
+  // console.log(todo);
+
+  updateState(todo);
+}
+
+function updateState(todos) {
+  // console.log(todos);
+
+  const added = [];
+  const deleted = [];
+  const updated = [];
+
+  // find added todo's
+  todos.forEach((todo) => {
+    const existInOldTodo = oldTodo.some((oldTodo) => oldTodo.id === todo.id);
+    if (!existInOldTodo) {
+      added.push(todo);
+    }
+  });
+  // console.log(added);
+
+  // find deleted to do
+  oldTodo.forEach((oldTodo) => {
+    const existIntodo = todo.some((todo) => todo.id === oldTodo.id);
+    if (!existIntodo) {
+      deleted.push(todo);
+    }
+  });
+
+  // find updated todo
+  todos.forEach((todo) => {
+    const oldtodo = oldTodo.find((oldtodo) => oldtodo.id === todo.id);
+    if (oldtodo && !isEqual(oldtodo, todo)) {
+      updated.push(todo);
+    }
+  });
+
+  // call appropriate functions for added,deleted and updated.
+  added.forEach(addTodoToDom);
+  deleted.forEach(deleteTodoFromDom);
+  updated.forEach(updateTodoInDom);
+
+  // update the old state
+  oldTodo = todo;
+}
+
+function addTodoToDom(todo) {
+  const parent = document.getElementById("container");
+  parent.appendChild(createChild(todo.title, todo.desc, todoId++));
+  // console.log(todo);
+}
+
+function deleteTodoFromDom(todo) {
+  console.log(todo);
+}
+
+function updateTodoInDom(todo) {
+  console.log(todo);
 }
 
 addtodoButton.addEventListener("click", addToDo);
-
-function updateToDo(oldTodo, newToDo) {
-  // const
-  const element = document.getElementById(oldTodo.id);
-}
-
-function deleteToDo(delToDoId) {
-  const element = document.getElementById(delToDoId);
-  console.log(element);
-}
-
-// pre react days
-// using state
-// statewill always be an array
-// every element of the state would have a title, description and id.
-
-function updateDomAccToState(todo) {
-  // console.log("updateDomAccToState clicked");
-  // console.log(todo);
-  const parent = document.getElementById("container");
-  parent.innerHTML = " ";
-  for (let i = 0; i < todo.length; i++) {
-    // console.log(todo[i].title);
-    parent.appendChild(
-      createChild(todo[i].title, todo[i].description, todoId++)
-    );
-  }
-
-  // parent.appendChild(createChild(state.title, state.description, todoId++));
-}
-
-// window.setInterval(async () => {
-//   const res = await fetch("");
-//   const todo = await res.json();
-//   updateDomAccToState(todo);
-// }, 2000);
-
-updateDomAccToState(todo);
