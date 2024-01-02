@@ -1,58 +1,86 @@
-// console.log("working");
-
 const addtodoButton = document.getElementById("addToDo");
-// let outputDiv = document.getElementById("output");
-
-// raw using normal dom manipulation.
 
 let todoId = 1;
+let todo = [];
+let oldTodo = [];
 
 function markAsDone(id) {
   const parent = document.getElementById(id);
-  //   console.log(parent.children); //.innerHTML = "Done";
   parent.children[2].innerHTML = "Done";
 }
 
+// https://sum-server.100xdevs.com/todos
 function createChild(title, desc, id) {
-  //   console.log(todoId);
   const child = document.createElement("div");
   const firstGrandChild = document.createElement("div");
   const secondGrandChild = document.createElement("div");
   const thirdGrandChild = document.createElement("button");
+  const fourthGrandChild = document.createElement("button");
+  const fifthGrandChild = document.createElement("button");
   firstGrandChild.innerHTML = title;
   secondGrandChild.innerHTML = desc;
   thirdGrandChild.innerHTML = "Mark as Done";
   thirdGrandChild.setAttribute("onClick", `markAsDone(${id})`);
+  fourthGrandChild.innerHTML = "delete toDo";
+  fourthGrandChild.setAttribute("onClick", `deleteToDo(${id})`);
+  fifthGrandChild.innerHTML = "update toDo";
+  fifthGrandChild.setAttribute("onClick", `updateToDo(${id})`);
   child.appendChild(firstGrandChild);
   child.appendChild(secondGrandChild);
   child.appendChild(thirdGrandChild);
+  child.appendChild(fourthGrandChild);
+  child.appendChild(fifthGrandChild);
   child.setAttribute("id", id);
-
-  //   console.log(child);
   return child;
 }
 function addToDo() {
   const title = document.getElementById("title").value;
   const desc = document.getElementById("description").value;
   const parent = document.getElementById("container");
-  //   const parent = document.createElement("div");
+  todo.push({
+    title: title,
+    desc: desc,
+    id: todoId,
+  });
   parent.appendChild(createChild(title, desc, todoId++));
-  //   const childDiv1 = document.createElement("div");
-  //   const childDiv2 = document.createElement("div");
-  //   const childDiv3 = document.createElement("button");
-  //   childDiv1.innerHTML = title;
-  //   childDiv2.innerHTML = desc;
-  //   childDiv3.innerHTML = "addtodo";
-
-  //   container.appendChild(childDiv1);
-  //   container.appendChild(childDiv2);
-  //   container.appendChild(childDiv3);
 }
 
 addtodoButton.addEventListener("click", addToDo);
 
-// `
-// <p>${title.value}</p>
-// <p>${desc.value}</p>
-// <button>Mark as completed</button>
-// `;
+function updateToDo(oldTodo, newToDo) {
+  // const
+  const element = document.getElementById(oldTodo.id);
+}
+
+function deleteToDo(delToDoId) {
+  const element = document.getElementById(delToDoId);
+  console.log(element);
+}
+
+// pre react days
+// using state
+// statewill always be an array
+// every element of the state would have a title, description and id.
+
+function updateDomAccToState(todo) {
+  // console.log("updateDomAccToState clicked");
+  // console.log(todo);
+  const parent = document.getElementById("container");
+  parent.innerHTML = " ";
+  for (let i = 0; i < todo.length; i++) {
+    // console.log(todo[i].title);
+    parent.appendChild(
+      createChild(todo[i].title, todo[i].description, todoId++)
+    );
+  }
+
+  // parent.appendChild(createChild(state.title, state.description, todoId++));
+}
+
+// window.setInterval(async () => {
+//   const res = await fetch("");
+//   const todo = await res.json();
+//   updateDomAccToState(todo);
+// }, 2000);
+
+updateDomAccToState(todo);
