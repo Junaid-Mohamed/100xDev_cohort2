@@ -1,7 +1,88 @@
+body {
+  font-family: "Arial", sans-serif;
+  background-color: #f4f4f4;
+  margin: 0;
+  padding: 0;
+  width: 65vh;
+}
+
+h1 {
+  text-align: center;
+  color: #333;
+  margin-top: 20px;
+}
+
 .input-container {
+  background-color: #fff;
+  padding: 20px;
   margin: 20px;
+  border-radius: 5px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+label {
+  display: block;
+  margin-bottom: 5px;
+}
+
+input {
+  width: 100%;
+  padding: 8px;
+  margin-bottom: 10px;
+  box-sizing: border-box;
+}
+
+button {
+  margin: 8px;
+  background-color: #3ea9d3;
+  color: #fff;
+  padding: 10px;
+  border: none;
+  cursor: pointer;
+  border-radius: 5px;
+}
+
+button:hover {
+  background-color: #2176c5;
 }
 
 #container {
+  display: none; /* Initially set to invisible */
+  flex-wrap: wrap;
+  justify-content: space-around;
   margin: 20px;
+}
+
+div[id^="container"] {
+  width: 300px;
+  background-color: #fff;
+  padding: 15px;
+  margin: 10px;
+  border-radius: 5px;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+}
+
+.util-buttons {
+  background-color: #b1ca3e;
+  color: #333;
+  margin-right: 5px;
+  padding: 8px;
+  border: none;
+  cursor: pointer;
+  border-radius: 3px;
+  font-size: 12px;
+}
+
+.util-buttons:hover {
+  background-color: #72df47;
+}
+
+input[type="text"] {
+  border: 1px solid #ccc;
+  border-radius: 3px;
+}
+
+input[type="text"]:focus {
+  outline: none;
+  border-color: #4caf50;
 }
