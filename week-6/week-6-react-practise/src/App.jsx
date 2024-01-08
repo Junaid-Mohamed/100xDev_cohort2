@@ -5,45 +5,43 @@ import viteLogo from "/vite.svg";
 import "./App.css";
 
 function App() {
-  function updateTitle() {
-    setTitle(`My Name is ${Math.floor(Math.random() * 100)}`);
-  }
-  const [title, setTitle] = useState("header1");
+  const [todos, setTodos] = useState([
+    {
+      id: 1,
+      title: "title1",
+      description: "description1",
+    },
+    {
+      id: 2,
+      title: "title2",
+      description: "description2",
+    },
+    {
+      id: 3,
+      title: "title3",
+      description: "description3",
+    },
+  ]);
+  // fetch("http://localhost:3001/todos")
+  //   .then((res) => res.json())
+  //   .then((json) => setTodos(json));
   return (
     <div>
-      <button onClick={updateTitle}>click me to update the header</button>
-      <Header title={title}></Header>
-      <Header title="header2"></Header>
-      <Header title="header3"></Header>
-      <Header title="header4"></Header>
-      <Header title="header5"></Header>
-      <Header title="header6"></Header>
+      <h1>This is react app</h1>
+      {todos.map((todo) => (
+        <Todo key={todo.id} title={todo.title} description={todo.description} />
+      ))}
     </div>
   );
 }
 
-function HeaderWithButton() {
-  function updateTitle() {
-    setTitle(`My Name is ${Math.floor(Math.random() * 100)}`);
-  }
-  const [title, setTitle] = useState("header1");
+function Todo({ title, description }) {
   return (
     <div>
-      <button onClick={updateTitle}>click me to update the header</button>
-      <Header title={title}></Header>
-      <Header title={title}></Header>
-      <Header title={title}></Header>
-      <Header title={title}></Header>
+      <h2>{title}</h2>
+      <p>{description}</p>
     </div>
   );
 }
-
-const Header = React.memo(function Header({ title }) {
-  return (
-    <div>
-      <h1>{title}</h1>
-    </div>
-  );
-});
 
 export default App;
