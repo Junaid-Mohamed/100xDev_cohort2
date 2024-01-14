@@ -5,41 +5,33 @@ import viteLogo from "/vite.svg";
 import "./App.css";
 
 function App() {
-  const [counter, setCounter] = useState(0);
-  const [inputValue, setInputvalue] = useState(1);
-  const [sum, setSum] = useState(0);
+  const [exchangeData, setExchangeData] = useState({});
+  const [bankData, setBankData] = useState({});
+
+  console.log("rerender happened");
   useEffect(() => {
-    let count = 0;
-    for (let i = 0; i <= inputValue; i++) {
-      count += i;
-    }
-  }, [inputValue]);
+    setTimeout(() => {
+      setBankData({ income: 100 });
+    }, 3000);
+  }, []);
+  useEffect(() => {
+    setTimeout(() => {
+      setExchangeData({ returns: 100 });
+    }, 2000);
+  }, []);
 
   function handleClick() {
-    setCounter(counter + 1);
+    setCounter((counter) => counter + 1);
+    setCounter((counter) => counter + 1);
   }
 
   function handleChange(e) {
     setInputvalue(e.target.value);
   }
 
-  return (
-    <div style={{ margin: "8px" }}>
-      <input style={{ margin: "8px" }} onChange={handleChange} type="number" />
-      <br />
-      Sum from 1 to {inputValue} is {}
-      <br />
-      <button style={{ margin: "8px" }} onClick={handleClick}>
-        Count {counter}
-      </button>
-    </div>
-  );
-}
+  const incomeTax = (bankData.income + exchangeData.returns) * 0.3;
 
-function Todo({ id }) {
-  // do a network call.
-
-  return <div>this is todo with id {id}</div>;
+  return <div>Hi There, your income tax return are {incomeTax}</div>;
 }
 
 export default App;
