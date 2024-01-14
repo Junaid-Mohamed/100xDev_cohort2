@@ -1,54 +1,40 @@
-import React, { useState, lazy, Suspense } from "react";
+import React, { useContext, useState } from "react";
 import reactLogo from "./assets/react.svg";
 import viteLogo from "/vite.svg";
 import "./App.css";
-import { BrowserRouter, Routes, Route, useNavigate } from "react-router-dom";
-// import Dashboard from "./components/Dashboard";
-// import Landing from "./components/Landing";
-const Dashboard = lazy(() => import("./components/Dashboard"));
-// const Landing = lazy(() => import("./components/Landing"));
-const Landing = React.lazy(() => import("./components/Landing"));
+import { CountContext } from "./context";
 
 function App() {
+  const [count, setCount] = useState(0);
   return (
     <div>
-      <BrowserRouter>
-        <AppBar />
-        <Routes>
-          <Route
-            path="/dashboard"
-            element={
-              <Suspense fallback={"loading..."}>
-                <Dashboard />
-              </Suspense>
-            }
-          />
-          <Route path="/" element={<Landing />} />
-        </Routes>
-      </BrowserRouter>
+      <CountContext.Provider value={{ count, setCount }}>
+        <Count />
+      </CountContext.Provider>
     </div>
   );
 }
 
-function AppBar() {
-  const navigate = useNavigate();
+function Count() {
   return (
     <div>
-      <button
-        onClick={() => {
-          navigate("/");
-        }}
-      >
-        {" "}
-        Landing
-      </button>
-      <button
-        onClick={() => {
-          navigate("/dashboard");
-        }}
-      >
-        Dahsboard
-      </button>
+      <CountRenderer />
+      <Button />
+    </div>
+  );
+}
+
+function CountRenderer() {
+  const count = useContext(CountContext);
+  return <div>{count}</div>;
+}
+
+function Button() {
+  const { count, setCount } = useContext(CountContext);
+  return (
+    <div>
+      <button onClick={() => setCount(count + 1)}>Increase</button>
+      <button onClick={() => setCount(count - 1)}>Decrease</button>
     </div>
   );
 }
