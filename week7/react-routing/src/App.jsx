@@ -1,20 +1,21 @@
 import React, { useContext, useState } from "react";
 
 import "./App.css";
-import { CountContextObject } from "./context";
+import { RecoilRoot, useRecoilState, useRecoilValue } from "recoil";
+import { countAtom } from "./store/atoms/count";
 
 function App() {
-  const [count, setCount] = useState(0);
   return (
     <div>
-      <CountContextObject.Provider value={{ count, setCount }}>
+      <RecoilRoot>
         <Count />
-      </CountContextObject.Provider>
+      </RecoilRoot>
     </div>
   );
 }
 
 function Count() {
+  console.log("count rendered");
   return (
     <div>
       <CountRenderer />
@@ -24,12 +25,14 @@ function Count() {
 }
 
 function CountRenderer() {
-  const { count } = useContext(CountContextObject);
+  const count = useRecoilValue(countAtom); // only count state variable
+  // const [count1, setCount] = useRecoilState(countAtom); // same as useState gives value and update function for that value.
+  //  use only what is required. performant sawaal aata hai if you take both and you want only one in your component.
   return <div>{count}</div>;
 }
 
 function Button() {
-  const { count, setCount } = useContext(CountContextObject);
+  const [count, setCount] = useRecoilState(countAtom);
   return (
     <div>
       <button onClick={() => setCount(count + 1)}>Increase</button>
