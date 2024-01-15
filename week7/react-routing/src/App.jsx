@@ -1,21 +1,30 @@
-import React, { useContext, useState } from "react";
+import React, { Component, useContext, useState } from "react";
 
 import "./App.css";
-import { RecoilRoot, useRecoilState, useRecoilValue } from "recoil";
+import {
+  RecoilRoot,
+  useRecoilState,
+  useRecoilValue,
+  useSetRecoilState,
+} from "recoil";
 import { countAtom } from "./store/atoms/count";
+import { evenSelector } from "./store/selectors/evenSelector";
 
 function App() {
   return (
     <div>
       <RecoilRoot>
         <Count />
+        <RenderEvenDiv />
       </RecoilRoot>
     </div>
   );
 }
 
 function Count() {
-  console.log("count rendered");
+  // console.log("count rendered");
+
+  // console.log(count % 2 === 0);
   return (
     <div>
       <CountRenderer />
@@ -32,13 +41,21 @@ function CountRenderer() {
 }
 
 function Button() {
-  const [count, setCount] = useRecoilState(countAtom);
+  console.log("Button rendered");
+  // const [count, setCount] = useRecoilState(countAtom);
+  // if you use above this Component will get rendered but it is not needed, so using below sttax/ API avoid that re-render
+  const setCount = useSetRecoilState(countAtom);
   return (
     <div>
-      <button onClick={() => setCount(count + 1)}>Increase</button>
-      <button onClick={() => setCount(count - 1)}>Decrease</button>
+      <button onClick={() => setCount((count) => count + 1)}>Increase</button>
+      <button onClick={() => setCount((count) => count - 1)}>Decrease</button>
     </div>
   );
+}
+
+function RenderEvenDiv() {
+  const isEven = useRecoilValue(evenSelector);
+  return <div>{isEven ? "This is even." : ""}</div>;
 }
 
 export default App;
