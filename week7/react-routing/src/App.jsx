@@ -1,4 +1,4 @@
-import React, { Component, useContext, useEffect, useMemo, useState } from "react";
+import React, { Component, useContext, useEffect, useMemo, useState,memo, useCallback } from "react";
 
 import "./App.css";
 
@@ -21,24 +21,34 @@ useEffect(()=>{
 },[])
 
 
-// const calculateExchangeReturns = ()=>{
-//   return exchangeData1.return+exchangeData2.return;
-// }
-
-const exchangeReturns = useMemo(()=>{
-  console.log("exchange return");
+const calculateExchangeReturns = useCallback( ()=>{
+  console.log("function calculate exchange called")
   return exchangeData1.return+exchangeData2.return;
 },[exchangeData1,exchangeData2])
 
-
-const incomeTax = (bankData.income+exchangeReturns)*0.3
-
   return (
     <div>
-      Income tax to be paid {incomeTax}
+      <ExchangeReturns calculateExchangeReturns={calculateExchangeReturns} />
+      <DummyComponent/>
     </div>
   );
 }
+
+const DummyComponent = memo(()=>{
+  console.log("dummy component called")
+  return(
+    <div>Dummy component</div>
+  )
+})
+
+
+const ExchangeReturns =memo(({calculateExchangeReturns}) =>{
+  return(
+    <div>
+      your exchange returns are: {calculateExchangeReturns()}
+    </div>
+  )
+}) 
 
 
 export default App;
