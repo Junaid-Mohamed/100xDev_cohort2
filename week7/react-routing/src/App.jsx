@@ -21,6 +21,10 @@ useEffect(()=>{
 },[])
 
 
+// const calculateExchangeReturns = ()=>{
+//   return exchangeData1.return+exchangeData2.return;
+// }
+
 const exchangeReturns = useMemo(()=>{
   console.log("exchange return");
   return exchangeData1.return+exchangeData2.return;
