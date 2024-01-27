@@ -8,16 +8,15 @@ function App() {
 
   return (
     <>
-    <div style={{display:"flex",justifyContent:"space-between"}}>
-      <div style={{backgroundColor:"red"}}>Hi1</div>
-      <div style={{backgroundColor:"blue"}}>Hi2</div>
-      <div style={{backgroundColor:"green"}}>Hi3</div>
-    </div>
+  
 
-    <div className='flex'>
-      <div style={{color:"white",backgroundColor:"red",width:"40%"}}>Hi1</div>
-      <div style={{backgroundColor:"blue",width:"40%"}}>Hi2</div>
-      <div style={{backgroundColor:"green",width:"20%"}}>Hi3</div>
+    <div className='grid grid-cols-10'>
+      <div className='bg-red-500 col-span-4' >Hi1</div>
+      <div className='bg-yellow-500 col-span-4' >Hi2</div>
+      <div className='bg-green-500 col-span-2'>Hi3</div>
+      <div className='bg-red-500 col-span-4' >Hi3</div>
+      <div className='bg-yellow-500 col-span-4' >Hi4</div>
+      <div className='bg-green-500 col-span-4'>Hi5</div>
     </div>
     </>
   )
