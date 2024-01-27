@@ -37,12 +37,23 @@ const MainApp = () => {
       {console.log(networkCount)}
       <button>Home</button>
 
-      <button>My Netwrok ( )</button>
-      <button>Jobs ()</button>
-      <button>Messaging ( )</button>
-      <button>Notifications ()</button>
+      <button>
+        My Netwrok ({networkCount.network >= 100 ? "99+" : networkCount.network}
+        )
+      </button>
+      <button>
+        Jobs ({networkCount.jobs >= 100 ? "99+" : networkCount.jobs})
+      </button>
+      <button>
+        Messaging ({" "}
+        {networkCount.messaging >= 100 ? "99+" : networkCount.messaging})
+      </button>
+      <button>
+        Notifications (
+        {networkCount.notification >= 100 ? "99+" : networkCount.notification})
+      </button>
 
-      <button>Me ()</button>
+      <button>Me ({totalNotificationCount})</button>
     </div>
   );
 };

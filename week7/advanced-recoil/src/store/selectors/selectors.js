@@ -8,6 +8,11 @@ export const totalNotificationSelector = selector({
   key: "totalNotificationSelector",
   get: ({ get }) => {
     const allNotification = get(notifications);
-    return "hi";
+    return (
+      allNotification.network +
+      allNotification.jobs +
+      allNotification.notification +
+      allNotification.messaging
+    );
   },
 });
