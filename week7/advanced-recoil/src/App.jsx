@@ -1,15 +1,12 @@
-import { useState, useMemo } from "react";
+import { useState, useMemo, useEffect } from "react";
 import reactLogo from "./assets/react.svg";
 import viteLogo from "/vite.svg";
 import "./App.css";
-import { RecoilRoot, useRecoilValue } from "recoil";
-import {
-  jobsAtom,
-  messageAtom,
-  networkAtom,
-  notificationAtom,
-} from "./store/atoms/atoms";
+import { RecoilRoot, useRecoilState, useRecoilValue } from "recoil";
+
 import { totalNotificationSelector } from "./store/selectors/selectors";
+import axios from "axios";
+import { notifications } from "./store/atoms/atoms";
 
 function App() {
   return (
@@ -22,52 +19,30 @@ function App() {
 }
 
 const MainApp = () => {
-  const networkNotificationCount = useRecoilValue(networkAtom);
-  const jobsNotificationCount = useRecoilValue(jobsAtom);
-  const messageNotificationCount = useRecoilValue(messageAtom);
-  const notificationCount = useRecoilValue(notificationAtom);
-  // total notification calculation should run only if anyone of this values change
-  // so should put into useMemo
+  const [networkCount, setNetwrokCount] = useRecoilState(notifications);
+  const totalNotificationCount = useRecoilValue(totalNotificationSelector);
+  useEffect(() => {
+    // fetch the data
+    axios
+      .get(
+        "https://24b24bc4-1937-47c0-bdfa-5639804d92ab-00-2u1widgk5427.kirk.replit.dev/"
+      )
+      .then((res) => {
+        setNetwrokCount(res.data);
+      });
+  }, []);
 
-  const totalNotificationCount = useMemo(() => {
-    return (
-      networkNotificationCount +
-      jobsNotificationCount +
-      messageNotificationCount +
-      notificationCount
-    );
-  }, [
-    networkNotificationCount,
-    jobsNotificationCount,
-    messageNotificationCount,
-    notificationCount,
-  ]);
-
-  // the same above logic using selectors
-  const totalNotificationCount1 = useRecoilValue(totalNotificationSelector);
-
-  //  you use this approach like if there's some other component which depends on this count and some other state,
-  // that time you can use this selector and that state, but if you had used useMemo, you wouldn't had been able to do that.
   return (
     <div>
+      {console.log(networkCount)}
       <button>Home</button>
 
-      <button>
-        My Netwrok (
-        {networkNotificationCount > 99 ? "99+" : networkNotificationCount})
-      </button>
-      <button>
-        Jobs ({jobsNotificationCount > 99 ? "99+" : jobsNotificationCount})
-      </button>
-      <button>
-        Messaging (
-        {messageNotificationCount > 99 ? "99+" : messageNotificationCount})
-      </button>
-      <button>
-        Notifications ({notificationCount > 99 ? "99+" : notificationCount})
-      </button>
+      <button>My Netwrok ( )</button>
+      <button>Jobs ()</button>
+      <button>Messaging ( )</button>
+      <button>Notifications ()</button>
 
-      <button>Me ({totalNotificationCount1})</button>
+      <button>Me ()</button>
     </div>
   );
 };
