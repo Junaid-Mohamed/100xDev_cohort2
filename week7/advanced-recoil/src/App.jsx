@@ -21,16 +21,16 @@ function App() {
 const MainApp = () => {
   const [networkCount, setNetwrokCount] = useRecoilState(notifications);
   const totalNotificationCount = useRecoilValue(totalNotificationSelector);
-  useEffect(() => {
-    // fetch the data
-    axios
-      .get(
-        "https://24b24bc4-1937-47c0-bdfa-5639804d92ab-00-2u1widgk5427.kirk.replit.dev/"
-      )
-      .then((res) => {
-        setNetwrokCount(res.data);
-      });
-  }, []);
+  // useEffect(() => {
+  //   // fetch the data
+  //   axios
+  //     .get(
+  //       "https://24b24bc4-1937-47c0-bdfa-5639804d92ab-00-2u1widgk5427.kirk.replit.dev/"
+  //     )
+  //     .then((res) => {
+  //       setNetwrokCount(res.data);
+  //     });
+  // }, []);
 
   return (
     <div>
