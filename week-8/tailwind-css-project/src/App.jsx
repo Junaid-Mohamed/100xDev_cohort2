@@ -8,7 +8,11 @@ function App() {
 
   return (
     <>
-  
+    <div className='grid grid-cols-1 md:grid-cols-3'>
+    <div className='' >Hi1</div>
+      <div className='' >Hi2</div>
+      <div className=''>Hi3</div>
+    </div>
 
     <div className='grid grid-cols-10'>
       <div className='bg-red-500 col-span-4' >Hi1</div>
