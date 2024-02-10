@@ -6,83 +6,86 @@ import axios from "axios";
 import useSWR from "swr";
 
 
-// const useTodos = (n) =>{
-//   const [todos,setTodos] = useState([]);
-//   const [loading,setLoading] = useState(true);
+// const useIsOnline = ()=>{
+
+//   const [online,setOnline] = useState(window.navigator.onLine);
+  
+//   const handleOnine = () =>{
+//     setOnline(!window.navigator.onLine);
+//   }
 //   useEffect(()=>{
-//     setInterval(()=>{
-//       axios.get("https://sum-server.100xdevs.com/todos")
-//       .then(resp=>{
-//         setTodos(resp.data.todos)
-//         setLoading(false)  
-//       });
-//     },n*1000)
-     
-//     axios.get("https://sum-server.100xdevs.com/todos")
-//       .then(resp=>{
-//         setTodos(resp.data.todos)
-//         setLoading(false)  
-//       });
-
-//   },[n]);
-
-//   return {todos,loading};
+    
+//     window.addEventListener("online",handleOnine)
+//     window.addEventListener("offline",handleOnine)
+//     return ()=>{
+//       window.removeEventListener("online",handleOnine);
+//       window.removeEventListener("offline",handleOnine);
+//     }
+//   },[])
+//    return online;
 // }
 
+const useMousePointer = () => {
+  const [position, setPosition] = useState({ x: 0, y: 0 });
 
-const fetcher = async(url) =>{
-  const data = await axios(url);
-  return data;
+  const handleMouseMove = (e) => {
+    setPosition({ x: e.clientX, y: e.clientY });
+  };
+
+  useEffect(() => {
+    window.addEventListener('mousemove', handleMouseMove);
+    return () => {
+      window.removeEventListener('mousemove', handleMouseMove);
+    };
+  }, []);
+
+  return position;
+};
+
+const useInterval = (cb,timer)=>{
+ 
+  useEffect(()=>{
+    const clock = setInterval(()=>{
+      cb()
+      console.log("component mounted.")
+    },timer)
+    // cb()
+    return () =>{
+      console.log("unmounted");
+      clearInterval(clock);
+    };
+  },[cb,timer])
+
 }
+
+// const useInterval = (callback, delay) => {
+//   useEffect(() => {
+//     const intervalId = setInterval(()=>{
+//       callback();
+//     console.log("mounted")}, delay);
+
+//     return () => {clearInterval(intervalId);
+//     console.log("unmounted.")};
+//   }, [callback, delay]);
+// };
+
+const useBebounced = (value,timeout) =>{
+
+}
+
 
 function App() {
-  
-  // const {todos,loading} = useTodos(3);
 
-  const {data,error,isLoading} = useSWR("https://sum-server.100xdevs.com/todos",fetcher)
+  const [count,setCount] = useState(0);
   
-  
- 
-    if(error) return <div>Failed to load</div>
-    else if(isLoading) return <div>loading.......</div>
-    return <div>Hi you have {data.todos.length}</div>  
+  useInterval(()=>{
+    setCount((count)=>count+1)
+  },1000)
+    
+    return <div>  The timer is {count}</div>  
 
 }
-
-const Todos = ({title,desc}) =>{
-
-  return(
-    <div>
-      <h3>{title}</h3>
-      <p>{desc}</p>
-    </div>
-  )
-
-}
-
-
 
 export default App
 
 
-
-// const Mycomponent = () =>{
-  
-//   const [count,setCount] = useState(0);
-
-//   useEffect(()=>{
-//     console.log("component mounted");
-
-//     return ()=>{
-//       console.log("component unmounted")
-//     }
-//   },[count]);
-
-//   return(
-//     <div>
-//       <h3>{count}</h3>
-//       <button onClick={()=>setCount((count)=>count+1)}>Increment</button>
-//       <button onClick={()=>setCount((count)=>count-1)}>Decrement</button>
-//     </div>
-//   )
-// }
