@@ -4,18 +4,37 @@ import viteLogo from '/vite.svg'
 import './App.css'
 import axios from "axios";
 
+
+const useTodos = (n) =>{
+  const [todos,setTodos] = useState([]);
+  const [loading,setLoading] = useState(true);
+  useEffect(()=>{
+    setInterval(()=>{
+      axios.get("https://sum-server.100xdevs.com/todos")
+      .then(resp=>{
+        setTodos(resp.data.todos)
+        setLoading(false)  
+      });
+    },n*1000)
+     
+    axios.get("https://sum-server.100xdevs.com/todos")
+      .then(resp=>{
+        setTodos(resp.data.todos)
+        setLoading(false)  
+      });
+
+  },[n]);
+
+  return {todos,loading};
+}
+
 function App() {
   
-  const [todos,setTodos] = useState([]);
+  const {todos,loading} = useTodos(3);
 
-  useEffect(()=>{
-      axios.get("https://sum-server.100xdevs.com/todos")
-      .then(resp=>setTodos(resp.data.todos));
-
-  },[])
   return (
     <>
-   { todos.map((todo)=>(<Todos title={todo.title} desc={todo.description} />))}
+   { loading?"Loading .....................":todos.map((todo)=>(<Todos title={todo.title} desc={todo.description} />))}
     
     </>
   )
