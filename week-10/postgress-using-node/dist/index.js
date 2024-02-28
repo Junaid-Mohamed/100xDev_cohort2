@@ -37,18 +37,53 @@ const client = new pg_1.Client({
 //  })
 function createUserTable() {
     return __awaiter(this, void 0, void 0, function* () {
-        const result = yield client.query(`
-    CREATE TABLE users (
+        try {
+            yield client.connect();
+            const result = yield client.query(`
+    CREATE TABLE users1 (
         id SERIAL PRIMARY KEY,
         username VARCHAR(50) UNIQUE NOT NULL,
         email VARCHAR(255) UNIQUE NOT NULL,
         password VARCHAR(255) NOT NULL,
         created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
     );`);
-        return result;
+            console.log(result);
+        }
+        catch (err) {
+            console.error("error while creating user table", err);
+        }
+        finally {
+            yield client.end();
+        }
     });
 }
-function insertData() {
+function createAddressTable() {
+    return __awaiter(this, void 0, void 0, function* () {
+        try {
+            yield client.connect();
+            const result = yield client.query(`
+        CREATE TABLE addresses (
+            id SERIAL PRIMARY KEY,
+            user_id INTEGER NOT NULL,
+            city VARCHAR(100) NOT NULL,
+            country VARCHAR(100) NOT NULL,
+            street VARCHAR(255) NOT NULL,
+            pincode VARCHAR(20),
+            created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
+            FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
+        );
+        `);
+            console.log(result);
+        }
+        catch (err) {
+            console.error("error while creating address table", err);
+        }
+        finally {
+            yield client.end();
+        }
+    });
+}
+function insertUserData() {
     return __awaiter(this, void 0, void 0, function* () {
         try {
             yield client.connect();
@@ -64,11 +99,11 @@ function insertData() {
         }
     });
 }
-function retrieveData() {
+function retrieveUserData() {
     return __awaiter(this, void 0, void 0, function* () {
         try {
             yield client.connect();
-            const retrieveQuery = "SELECT * FROM users where email= ''; DELETE * FROM users";
+            const retrieveQuery = "SELECT * FROM users where email=$1";
             const value = "Junaid@gmail.com";
             const res = yield client.query(retrieveQuery, [value]);
             console.log("Insertion success", res);
@@ -81,8 +116,46 @@ function retrieveData() {
         }
     });
 }
-// insertData()
-retrieveData();
+function insertAddressData() {
+    return __awaiter(this, void 0, void 0, function* () {
+        try {
+            yield client.connect();
+            const insertQuery = `INSERT INTO addresses (user_id, city, country, street, pincode)
+        VALUES (1, 'New York', 'USA', '123 Broadway St', '10001')`;
+            const res = yield client.query(insertQuery);
+            console.log("Insertion success", res);
+        }
+        catch (err) {
+            console.error("Insertion failed with error", err);
+        }
+        finally {
+            yield client.end();
+        }
+    });
+}
+function retrieveAddressData() {
+    return __awaiter(this, void 0, void 0, function* () {
+        try {
+            yield client.connect();
+            const retrieveQuery = "SELECT * FROM addresses where user_id=$1";
+            const value = 1;
+            const res = yield client.query(retrieveQuery, [value]);
+            console.log("Insertion success", res);
+        }
+        catch (err) {
+            console.error("retrieve failed with error", err);
+        }
+        finally {
+            yield client.end();
+        }
+    });
+}
+// createUserTable()
+// insertUserData()
+// retrieveUserData();
+// createAddressTable();
+// insertAddressData();
+retrieveAddressData();
 // const result =client.query(`
 // CREATE TABLE users (
 //     id SERIAL PRIMARY KEY,
